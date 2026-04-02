@@ -20,14 +20,15 @@ for animal in animals_data:
 
 output=""
 for animal in animals_data:
-    output+= f"Name: {animal['name']}\n"
+    output+= '<li class="cards__item">'
+    output+= f"Name: {animal['name']}<br>\n"
     if "diet" in animal["characteristics"]:
-        output += f"Diet: {animal['characteristics']['diet']}\n"
+        output += f"Diet: {animal['characteristics']['diet']}<br>\n"
     if "locations" in animal:
-        output += f"Locations: {animal['locations'][0]}\n"
+        output += f"Locations: {animal['locations'][0]}<br>\n"
     if "type" in animal["characteristics"]:
-        output += f"Type: {animal['characteristics']['type']}\n"
-
+        output += f"Type: {animal['characteristics']['type']}<br>\n"
+    output += "</li>"
 
 print(output)
 
