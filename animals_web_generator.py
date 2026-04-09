@@ -3,64 +3,65 @@ import json
 def load_data(file_path):
     with open(file_path, "r") as handle:
         return json.load(handle)
-data = load_data('animals_data.json')
+data= load_data('animals_data.json')
 
+def show_animal_details(data):
+    for animal in data:
+        print(f"{animal['name']}")
 
-for animal in data:
-    name=animal["name"]
-    print(name)
-    characteristics= animal["characteristics"]
-    if "diet" in characteristics:
-        print(f"Diet: {characteristics['diet']}")
-    if "locations" in animal:
-        print(f"Locations: {animal['locations'][0]}")
-    if "type" in characteristics:
-        print(f"Type: {characteristics['type']}")
-    print()
+        if "diet" in animal["characteristics"]:
+            print(f"Diet: {animal['characteristics']['diet']}")
+
+        if "type" in animal["characteristics"]:
+            print(f"Type: {animal['characteristics']['type']}")
+
+        if "locations" in animal and len(animal["locations"]) > 0:
+            print(f"Location: {animal['locations'][0]}")
+        print()
 
 def serialize_animal(animal_obj):
-    output = ''
+    output = ""
     output += '<li class="cards__item">\n'
     output += f'<div class="card__title">{animal_obj["name"]}</div>\n'
-    output += f'<p class="card__text">'
+    output += '<p class="card__text">\n'
+
     if "diet" in animal_obj["characteristics"]:
-        output += f"<strong>Diet:</strong>{animal_obj['characteristics']['diet']}<br>\n"
-    if "locations" in animal_obj:
-        output += f"<strong>Locations:</strong> {animal_obj['locations'][0]}<br>\n"
+        output += f"<strong>Diet:</strong> {animal_obj['characteristics']['diet']}<br/>\n"
+
+    if "locations" in animal_obj and len(animal_obj["locations"]) > 0:
+        output += f"<strong>Location:</strong> {animal_obj['locations'][0]}<br/>\n"
+
     if "type" in animal_obj["characteristics"]:
-        output += f"<strong>Type:</strong> {animal_obj['characteristics']['type']}<br>\n"
-    output += "</p></li>"
+        output += f"<strong>Type:</strong> {animal_obj['characteristics']['type']}<br/>\n"
+
+    output += "</p>\n"
+    output += "</li>\n"
     return output
 
-'''Nicht nötig----Funktion vorhanden
-output=""
-for animal in data:
-    output+= f'<li class="cards__item">'
-    output+= f'<div class="card__title">{animal['name']}</div><br>\n'
-    output+= f'<p class="card__text">'
-    if "diet" in animal["characteristics"]:
-        output += f"<strong>Diet:</strong>{animal['characteristics']['diet']}<br>\n"
-    if "locations" in animal:
-        output += f"<strong>Locations:</strong> {animal['locations'][0]}<br>\n"
-    if "type" in animal["characteristics"]:
-        output += f"<strong>Type:</strong> {animal['characteristics']['type']}<br>\n"
-    output += "</p></li>"
 
-'''
+def main():
+    data = load_data("animals_data.json")
 
-output = ''
-for animal_obj in data:
-    output += serialize_animal(animal_obj)
+    show_animal_details()
 
-with open("animals_template.html", "r")as file:
-    html_template = file.read()
-print(html_template)
+    output = ""
+    for animal in data:
+        output += serialize_animal(animal)
 
-final_html=html_template.replace("__REPLACE_ANIMALS_INFO__",output)
-print(final_html)
+    with open("animals_template.html", "r") as file:
+        html_template = file.read()
+        final_html = html_template.replace("__REPLACE_ANIMALS_INFO__", output)
 
-with open("animals.html", "w") as file:
-    file.write(final_html)
+    with open("animals.html", "w") as file:
+        file.write(final_html)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
 
 
 
