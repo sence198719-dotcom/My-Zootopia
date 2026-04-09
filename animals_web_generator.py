@@ -42,7 +42,7 @@ def serialize_animal(animal_obj):
 def main():
     data = load_data("animals_data.json")
 
-    show_animal_details()
+    show_animal_details(data)
 
     output = ""
     for animal in data:
